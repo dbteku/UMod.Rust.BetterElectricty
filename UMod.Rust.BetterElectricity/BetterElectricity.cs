@@ -3,7 +3,7 @@ using Oxide.Core;
 
 namespace Oxide.Plugins
 {
-    [Info("BetterElectricity", "dbteku", "1.0.0")]
+    [Info("BetterElectricity", "dbteku", "1.0.1")]
     [Description("Allows more control over electricity.")]
     public class BetterElectricity : RustPlugin
     {

@@ -7,52 +7,58 @@
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Facepunch.Console">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Facepunch.Console.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Facepunch.Console.dll</HintPath>
     </Reference>
     <Reference Include="Facepunch.Rcon">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Facepunch.Rcon.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Facepunch.Rcon.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Unity">
+      <HintPath>..\..\..\..\Servers\Utilities\steamapps\common\rust_dedicated\RustDedicated_Data\Managed\Facepunch.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.UnityEngine">
+      <HintPath>..\..\..\..\Servers\Utilities\steamapps\common\rust_dedicated\RustDedicated_Data\Managed\Facepunch.UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Data.Tds">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Mono.Data.Tds.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Mono.Data.Tds.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="NewAssembly">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\NewAssembly.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\NewAssembly.dll</HintPath>
     </Reference>
     <Reference Include="Oxide.Core">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.Core.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.Core.dll</HintPath>
     </Reference>
     <Reference Include="Oxide.CSharp">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Oxide.MySql">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.MySql.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.MySql.dll</HintPath>
     </Reference>
     <Reference Include="Oxide.References">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.References.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.References.dll</HintPath>
     </Reference>
     <Reference Include="Oxide.Rust">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.Rust.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.Rust.dll</HintPath>
     </Reference>
     <Reference Include="Oxide.SQLite">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.SQLite.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="Oxide.Unity">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.Unity.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.Unity.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration.Install">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Configuration.Install.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\System.Configuration.Install.dll</HintPath>
     </Reference>
     <Reference Include="System.Data">
       <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Data.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\Oxide\Raw\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing">
       <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Drawing.dll</HintPath>
@@ -62,6 +68,9 @@
     </Reference>
     <Reference Include="System.Transactions">
       <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Transactions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\..\Servers\Utilities\steamapps\common\rust_dedicated\RustDedicated_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 

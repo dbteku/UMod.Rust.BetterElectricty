@@ -84,7 +84,7 @@ namespace Oxide.Plugins
 
         protected override void LoadDefaultConfig()
         {
-            PrintError("Configuration file is corrupt (or doesn't exists), creating new one!");
+            PrintWarning("Configuration file is corrupt (or doesn't exists), creating new one!");
             config = GetDefaultConfig();
         }
 

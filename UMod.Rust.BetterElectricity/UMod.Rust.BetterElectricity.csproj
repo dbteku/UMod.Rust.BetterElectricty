@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Console">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Facepunch.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Rcon">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Facepunch.Rcon.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Tds">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Mono.Data.Tds.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NewAssembly">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\NewAssembly.dll</HintPath>
+    </Reference>
+    <Reference Include="Oxide.Core">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Oxide.CSharp">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Oxide.MySql">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.MySql.dll</HintPath>
+    </Reference>
+    <Reference Include="Oxide.References">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.References.dll</HintPath>
+    </Reference>
+    <Reference Include="Oxide.Rust">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.Rust.dll</HintPath>
+    </Reference>
+    <Reference Include="Oxide.SQLite">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="Oxide.Unity">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\Oxide.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration.Install">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Configuration.Install.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Runtime.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions">
+      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Transactions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

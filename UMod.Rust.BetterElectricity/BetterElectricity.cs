@@ -142,9 +142,9 @@ namespace Oxide.Plugins
             ChangeBatteries();
         }
 
-        private bool HasPermission(BasePlayer player)
+        private bool HasPermission(BasePlayer player, string perm)
         {
-            return player.IsAdmin || permission.UserHasPermission(player.UserIDString, ADMIN_PERM);
+            return player.IsAdmin || permission.UserHasPermission(player.UserIDString, perm);
         }
 
         #endregion
@@ -250,12 +250,19 @@ namespace Oxide.Plugins
             {
                 if (args[0] == "reload")
                 {
-                    Reload();
+                    if (HasPermission(player, ADMIN_PERM))
+                    {
+                        Reload();
+                    }
+                    else
+                    {
+                        SendReply(player, "No permission!");
+                    }
                 }
                 else
                 {
                     SendReply(player, "====== Player Commands ======");
-                    SendReply(player, "/be reload => Reloads the config.");
+                    SendReply(player, "/be reload => Reloads the config. (Admin only)");
                 }
             }
         }

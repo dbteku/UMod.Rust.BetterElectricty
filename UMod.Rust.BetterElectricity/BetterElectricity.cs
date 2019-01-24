@@ -1,13 +1,14 @@
 ﻿using Newtonsoft.Json;
 using Oxide.Core;
+using System.Collections.Generic;
 
 namespace Oxide.Plugins
 {
-    [Info("BetterElectricity", "dbteku", "1.0.1")]
+    [Info("Better Electricity", "dbteku", "1.0.4")]
     [Description("Allows more control over electricity.")]
     public class BetterElectricity : RustPlugin
     {
-        private const string ADMIN_PERM = "be.admin";
+        private const string ADMIN_PERM = "betterelectricity.admin";
 
         private static ElectricityConfig config;
 
@@ -84,7 +85,7 @@ namespace Oxide.Plugins
 
         protected override void LoadDefaultConfig()
         {
-            PrintWarning("Configuration file is corrupt (or doesn't exists), creating new one!");
+            PrintWarning(BetterElectricityLang.GetMessage(BetterElectricityLang.CONFIG_CREATE_OR_FIX));
             config = GetDefaultConfig();
         }
 
@@ -131,6 +132,51 @@ namespace Oxide.Plugins
 
         #endregion
 
+        #region lang
+
+        private class BetterElectricityLang
+        {
+            public static Dictionary<string, string> lang = new Dictionary<string, string>();
+            public static string FIND_SOLAR_PANELS_ADJUST = "FindSolarPanelsAdjust";
+            public static string FIND_BATTERIES_ADJUST = "FindBatteriesAdjust";
+            public static string FIND_SOLAR_PANELS_REVERT = "FindSolarPanelsRevert";
+            public static string FIND_BATTERIES_REVERT = "FindBatteriesRevert";
+            public static string HELP_PLAYER_MENU = "HelpMenu";
+            public static string BE_RELOAD_HELP = "BeReloadHelp";
+            public static string NO_PERMISSION = "NoPermission";
+            public static string CONFIG_CREATE_OR_FIX = "ConfigUpdateOrFix";
+
+            public static string GetMessage(string id)
+            {
+                string message = "";
+                lang.TryGetValue(id, out message);
+                if(message == null)
+                {
+                    message = "";
+                }
+                return message;
+            }
+
+        }
+
+        protected override void LoadDefaultMessages()
+        {
+            lang.RegisterMessages(new Dictionary<string, string>
+            {
+                [BetterElectricityLang.FIND_SOLAR_PANELS_ADJUST] = "Finding and adjusting all Solar Panels. (This may take some time)",
+                [BetterElectricityLang.FIND_BATTERIES_ADJUST] = "Finding and adjusting all Batteries. (This may take some time)",
+                [BetterElectricityLang.FIND_SOLAR_PANELS_REVERT] = "Finding and reverting all Solar Panels. (This may take some time)",
+                [BetterElectricityLang.FIND_BATTERIES_REVERT] = "Finding and reverting all Batteries. (This may take some time)",
+                [BetterElectricityLang.HELP_PLAYER_MENU] = "====== Player Commands ======",
+                [BetterElectricityLang.BE_RELOAD_HELP] = "/belectric reload => Reloads the config.",
+                [BetterElectricityLang.NO_PERMISSION] = "No Permission!",
+                [BetterElectricityLang.CONFIG_CREATE_OR_FIX] = "Configuration file is corrupt (or doesn't exists), creating new one!",
+            }, this);
+            BetterElectricityLang.lang = lang.GetMessages("en", this);
+        }
+
+        #endregion
+
         #region Utils
 
         private void Reload()
@@ -154,7 +200,7 @@ namespace Oxide.Plugins
         private void ChangeSolarPanels()
         {
             // Heavy Initial Load
-            Puts("Finding and adjusting all Solar Panels. (This may take some time)");
+            Puts(BetterElectricityLang.GetMessage(BetterElectricityLang.FIND_SOLAR_PANELS_ADJUST));
             foreach (SolarPanel panel in UnityEngine.Object.FindObjectsOfType<SolarPanel>())
             {
                 AdjustSolarPanel(panel);
@@ -164,7 +210,7 @@ namespace Oxide.Plugins
         private void ChangeBatteries()
         {
             // Heavy Initial Load
-            Puts("Finding and adjusting all Batteries. (This may take some time)");
+            Puts(BetterElectricityLang.GetMessage(BetterElectricityLang.FIND_BATTERIES_ADJUST));
             foreach (ElectricBattery battery in UnityEngine.Object.FindObjectsOfType<ElectricBattery>())
             {
                 AdjustBattery(battery);
@@ -173,7 +219,7 @@ namespace Oxide.Plugins
 
         private void RevertBatteries()
         {
-            Puts("Finding and reverting all Batteries. (This may take some time)");
+            Puts(BetterElectricityLang.GetMessage(BetterElectricityLang.FIND_BATTERIES_REVERT));
             foreach (ElectricBattery battery in UnityEngine.Object.FindObjectsOfType<ElectricBattery>())
             {
                 RevertBattery(battery);
@@ -182,7 +228,7 @@ namespace Oxide.Plugins
 
         private void RevertSolarPanels()
         {
-            Puts("Finding and reverting all Solar Panels. (This may take some time)");
+            Puts(BetterElectricityLang.GetMessage(BetterElectricityLang.FIND_SOLAR_PANELS_REVERT));
             foreach (SolarPanel panel in UnityEngine.Object.FindObjectsOfType<SolarPanel>())
             {
                 RevertSolarPanel(panel);
@@ -238,17 +284,17 @@ namespace Oxide.Plugins
         #endregion
 
         #region Commands
-        [ChatCommand("be")]
+        [ChatCommand("belectric")]
         void OnElectricityCommand(BasePlayer player, string command, string[] args)
         {
             if(args.Length == 0)
             {
-                SendReply(player, "====== Player Commands ======");
-                SendReply(player, "/be reload => Reloads the config.");
+                SendReply(player, BetterElectricityLang.GetMessage(BetterElectricityLang.HELP_PLAYER_MENU));
+                SendReply(player, BetterElectricityLang.GetMessage(BetterElectricityLang.BE_RELOAD_HELP));
             }
             else if(args.Length == 1)
             {
-                if (args[0] == "reload")
+                if (args[0].ToLower() == "reload")
                 {
                     if (HasPermission(player, ADMIN_PERM))
                     {
@@ -256,13 +302,13 @@ namespace Oxide.Plugins
                     }
                     else
                     {
-                        SendReply(player, "No permission!");
+                        SendReply(player, BetterElectricityLang.GetMessage(BetterElectricityLang.NO_PERMISSION));
                     }
                 }
                 else
                 {
-                    SendReply(player, "====== Player Commands ======");
-                    SendReply(player, "/be reload => Reloads the config. (Admin only)");
+                    SendReply(player, BetterElectricityLang.GetMessage(BetterElectricityLang.HELP_PLAYER_MENU));
+                    SendReply(player, BetterElectricityLang.GetMessage(BetterElectricityLang.BE_RELOAD_HELP));
                 }
             }
         }

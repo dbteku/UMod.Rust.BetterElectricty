@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Oxide.Plugins
 {
-    [Info("Better Electricity", "dbteku", "1.0.4")]
+    [Info("Better Electricity", "dbteku", "1.0.5")]
     [Description("Allows more control over electricity.")]
     public class BetterElectricity : RustPlugin
     {
@@ -172,7 +172,7 @@ namespace Oxide.Plugins
                 [BetterElectricityLang.NO_PERMISSION] = "No Permission!",
                 [BetterElectricityLang.CONFIG_CREATE_OR_FIX] = "Configuration file is corrupt (or doesn't exists), creating new one!",
             }, this);
-            BetterElectricityLang.lang = lang.GetMessages("en", this);
+            BetterElectricityLang.lang = lang.GetMessages(lang.GetServerLanguage(), this);
         }
 
         #endregion
@@ -289,8 +289,8 @@ namespace Oxide.Plugins
         {
             if(args.Length == 0)
             {
-                SendReply(player, BetterElectricityLang.GetMessage(BetterElectricityLang.HELP_PLAYER_MENU));
-                SendReply(player, BetterElectricityLang.GetMessage(BetterElectricityLang.BE_RELOAD_HELP));
+                SendReply(player, lang.GetMessage(BetterElectricityLang.HELP_PLAYER_MENU, this, player.UserIDString));
+                SendReply(player, lang.GetMessage(BetterElectricityLang.BE_RELOAD_HELP, this, player.UserIDString));
             }
             else if(args.Length == 1)
             {
@@ -302,13 +302,13 @@ namespace Oxide.Plugins
                     }
                     else
                     {
-                        SendReply(player, BetterElectricityLang.GetMessage(BetterElectricityLang.NO_PERMISSION));
+                        SendReply(player, lang.GetMessage(BetterElectricityLang.NO_PERMISSION, this, player.UserIDString));
                     }
                 }
                 else
                 {
-                    SendReply(player, BetterElectricityLang.GetMessage(BetterElectricityLang.HELP_PLAYER_MENU));
-                    SendReply(player, BetterElectricityLang.GetMessage(BetterElectricityLang.BE_RELOAD_HELP));
+                    SendReply(player, lang.GetMessage(BetterElectricityLang.HELP_PLAYER_MENU, this, player.UserIDString));
+                    SendReply(player, lang.GetMessage(BetterElectricityLang.BE_RELOAD_HELP, this, player.UserIDString));
                 }
             }
         }

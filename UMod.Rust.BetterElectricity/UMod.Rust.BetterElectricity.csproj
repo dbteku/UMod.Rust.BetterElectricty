@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,71 +6,58 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Oxide.Core" Version="2.0.3867" />
+    <PackageReference Include="Oxide.CSharp" Version="2.0.4000" />
+    <PackageReference Include="Oxide.Rust" Version="2.0.4285" />
+    <PackageReference Include="Oxide.Unity" Version="2.0.3756" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="Facepunch.Console">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Facepunch.Console.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Input">
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Network">
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Raknet">
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.Raknet.dll</HintPath>
     </Reference>
     <Reference Include="Facepunch.Rcon">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Facepunch.Rcon.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.Rcon.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Skeleton">
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.Skeleton.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Sqlite">
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Steamworks.Win64">
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.Steamworks.Win64.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.System">
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.System.dll</HintPath>
     </Reference>
     <Reference Include="Facepunch.Unity">
-      <HintPath>..\..\..\..\Servers\Utilities\steamapps\common\rust_dedicated\RustDedicated_Data\Managed\Facepunch.Unity.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Facepunch.UnityEngine">
-      <HintPath>..\..\..\..\Servers\Utilities\steamapps\common\rust_dedicated\RustDedicated_Data\Managed\Facepunch.UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\Facepunch.UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Data.Tds">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Mono.Data.Tds.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="NewAssembly">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\NewAssembly.dll</HintPath>
-    </Reference>
-    <Reference Include="Oxide.Core">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Oxide.CSharp">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Oxide.MySql">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.MySql.dll</HintPath>
-    </Reference>
-    <Reference Include="Oxide.References">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.References.dll</HintPath>
-    </Reference>
-    <Reference Include="Oxide.Rust">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.Rust.dll</HintPath>
-    </Reference>
-    <Reference Include="Oxide.SQLite">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="Oxide.Unity">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\Oxide.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Configuration.Install">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\System.Configuration.Install.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\..\..\Libraries\Oxide\Raw\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Runtime.Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Transactions">
-      <HintPath>..\..\..\..\..\Libraries\Oxide\Raw\System.Transactions.dll</HintPath>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\Servers\Utilities\steamapps\common\rust_dedicated\RustDedicated_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\Libraries\umod.Rust\src\bin\Release\net46\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 

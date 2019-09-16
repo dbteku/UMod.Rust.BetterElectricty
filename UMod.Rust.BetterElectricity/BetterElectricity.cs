@@ -22,8 +22,6 @@ namespace Oxide.Plugins
 
             public SmallGeneratorConfig SmallGeneratorConfig { get; set; }
 
-            public int MyProperty { get; set; }
-
             public MillConfig MillConfig { get; set; }
 
             public ElectricityConfig()
@@ -167,7 +165,7 @@ namespace Oxide.Plugins
                 AdjustMill(mill);
             }
 
-            FuelElectricGenerator generator = networkObject.GetComponent<FuelElectricGenerator>();
+            FuelGenerator generator = networkObject.GetComponent<FuelGenerator>();
 
             if(generator != null)
             {
@@ -275,7 +273,7 @@ namespace Oxide.Plugins
         private void ChangeSmallGenerators()
         {
             Puts(lang.GetMessage(BetterElectricityLang.FIND_SMALL_GEN_ADJUST, this));
-            foreach (FuelElectricGenerator generator in UnityEngine.Object.FindObjectsOfType<FuelElectricGenerator>())
+            foreach (FuelGenerator generator in UnityEngine.Object.FindObjectsOfType<FuelGenerator>())
             {
                 AdjustGenerator(generator);
             }
@@ -345,9 +343,9 @@ namespace Oxide.Plugins
             mill.maxPowerGeneration = config.MillConfig.MaxOutput;
         }
 
-        private void AdjustGenerator(FuelElectricGenerator generator)
+        private void AdjustGenerator(FuelGenerator generator)
         {
-            
+            generator.outputEnergy = config.SmallGeneratorConfig.MaxOutput;
         }
 
         private void RevertBattery(ElectricBattery battery)

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Oxide.Plugins
 {
-    [Info("Better Electricity", "dbteku", "1.1.2")]
+    [Info("Better Electricity", "dbteku", "1.2.0")]
     [Description("Allows more control over electricity.")]
     public class BetterElectricity : RustPlugin
     {

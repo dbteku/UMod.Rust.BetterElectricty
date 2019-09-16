@@ -79,6 +79,17 @@ namespace Oxide.Plugins
             }
         }
 
+        private class SmallGeneratorConfig
+        {
+            ElectricGenerator gen;
+            public SmallGeneratorConfig()
+            {
+                    
+            }
+            
+        }
+
+
 
         protected override void LoadConfig()
         {

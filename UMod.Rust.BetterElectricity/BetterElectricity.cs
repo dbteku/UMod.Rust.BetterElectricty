@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Oxide.Plugins
 {
-    [Info("Better Electricity", "dbteku", "1.0.5")]
+    [Info("Better Electricity", "dbteku", "1.1.2")]
     [Description("Allows more control over electricity.")]
     public class BetterElectricity : RustPlugin
     {
@@ -20,11 +20,14 @@ namespace Oxide.Plugins
             public LargeBatteryConfig LargeBatteryConfig { get; set; }
             public SmallBatteryConfig SmallBatteryConfig { get; set; }
 
+            public MillConfig MillConfig { get; set; }
+
             public ElectricityConfig()
             {
                 SolarPanelConfig = new SolarPanelConfig();
                 LargeBatteryConfig = new LargeBatteryConfig();
                 SmallBatteryConfig = new SmallBatteryConfig();
+                MillConfig = new MillConfig();
             }
         }
 
@@ -35,6 +38,16 @@ namespace Oxide.Plugins
             public SolarPanelConfig()
             {
                 MaxOutput = 100;
+            }
+        }
+
+        private class MillConfig
+        {
+            public int MaxOutput { get; set; }
+
+            public MillConfig()
+            {
+                MaxOutput = 150;
             }
         }
 
@@ -85,7 +98,7 @@ namespace Oxide.Plugins
 
         protected override void LoadDefaultConfig()
         {
-            PrintWarning(BetterElectricityLang.GetMessage(BetterElectricityLang.CONFIG_CREATE_OR_FIX));
+            PrintWarning(lang.GetMessage(BetterElectricityLang.CONFIG_CREATE_OR_FIX, this));
             config = GetDefaultConfig();
         }
 
@@ -106,14 +119,17 @@ namespace Oxide.Plugins
 
         private void OnServerInitialized()
         {
+            permission.RegisterPermission(ADMIN_PERM, this);
             ChangeSolarPanels();
             ChangeBatteries();
+            ChangeMills();
         }
 
         private void Unload()
         {
             RevertSolarPanels();
             RevertBatteries();
+            RevertMills();
         }
 
         private void OnEntitySpawned(BaseNetworkable networkObject)
@@ -128,6 +144,12 @@ namespace Oxide.Plugins
             {
                 AdjustSolarPanel(panel);
             }
+
+            ElectricWindmill mill = networkObject.GetComponent<ElectricWindmill>();
+            if (mill != null)
+            {
+                AdjustMill(mill);
+            }
         }
 
         #endregion
@@ -139,23 +161,14 @@ namespace Oxide.Plugins
             public static Dictionary<string, string> lang = new Dictionary<string, string>();
             public static string FIND_SOLAR_PANELS_ADJUST = "FindSolarPanelsAdjust";
             public static string FIND_BATTERIES_ADJUST = "FindBatteriesAdjust";
+            public static string FIND_MILL_ADJUST = "FindMillAdjust";
             public static string FIND_SOLAR_PANELS_REVERT = "FindSolarPanelsRevert";
             public static string FIND_BATTERIES_REVERT = "FindBatteriesRevert";
+            public static string FIND_MILL_REVERT = "FindMillRevert";
             public static string HELP_PLAYER_MENU = "HelpMenu";
             public static string BE_RELOAD_HELP = "BeReloadHelp";
             public static string NO_PERMISSION = "NoPermission";
             public static string CONFIG_CREATE_OR_FIX = "ConfigUpdateOrFix";
-
-            public static string GetMessage(string id)
-            {
-                string message = "";
-                lang.TryGetValue(id, out message);
-                if(message == null)
-                {
-                    message = "";
-                }
-                return message;
-            }
 
         }
 
@@ -165,14 +178,15 @@ namespace Oxide.Plugins
             {
                 [BetterElectricityLang.FIND_SOLAR_PANELS_ADJUST] = "Finding and adjusting all Solar Panels. (This may take some time)",
                 [BetterElectricityLang.FIND_BATTERIES_ADJUST] = "Finding and adjusting all Batteries. (This may take some time)",
+                [BetterElectricityLang.FIND_MILL_ADJUST] = "Finding and adjusting all Mill Turbines. (This may take some time)",
                 [BetterElectricityLang.FIND_SOLAR_PANELS_REVERT] = "Finding and reverting all Solar Panels. (This may take some time)",
                 [BetterElectricityLang.FIND_BATTERIES_REVERT] = "Finding and reverting all Batteries. (This may take some time)",
+                [BetterElectricityLang.FIND_MILL_REVERT] = "Finding and reverting all Mill Turbines. (This may take some time)",
                 [BetterElectricityLang.HELP_PLAYER_MENU] = "====== Player Commands ======",
                 [BetterElectricityLang.BE_RELOAD_HELP] = "/belectric reload => Reloads the config.",
                 [BetterElectricityLang.NO_PERMISSION] = "No Permission!",
                 [BetterElectricityLang.CONFIG_CREATE_OR_FIX] = "Configuration file is corrupt (or doesn't exists), creating new one!",
             }, this);
-            BetterElectricityLang.lang = lang.GetMessages(lang.GetServerLanguage(), this);
         }
 
         #endregion
@@ -181,11 +195,13 @@ namespace Oxide.Plugins
 
         private void Reload()
         {
+            RevertMills();
             RevertSolarPanels();
             RevertBatteries();
             LoadConfig();
             ChangeSolarPanels();
             ChangeBatteries();
+            ChangeMills();
         }
 
         private bool HasPermission(BasePlayer player, string perm)
@@ -200,7 +216,7 @@ namespace Oxide.Plugins
         private void ChangeSolarPanels()
         {
             // Heavy Initial Load
-            Puts(BetterElectricityLang.GetMessage(BetterElectricityLang.FIND_SOLAR_PANELS_ADJUST));
+            Puts(lang.GetMessage(BetterElectricityLang.FIND_SOLAR_PANELS_ADJUST, this));
             foreach (SolarPanel panel in UnityEngine.Object.FindObjectsOfType<SolarPanel>())
             {
                 AdjustSolarPanel(panel);
@@ -210,16 +226,26 @@ namespace Oxide.Plugins
         private void ChangeBatteries()
         {
             // Heavy Initial Load
-            Puts(BetterElectricityLang.GetMessage(BetterElectricityLang.FIND_BATTERIES_ADJUST));
+            Puts(lang.GetMessage(BetterElectricityLang.FIND_BATTERIES_ADJUST, this));
             foreach (ElectricBattery battery in UnityEngine.Object.FindObjectsOfType<ElectricBattery>())
             {
                 AdjustBattery(battery);
             }
         }
 
+        private void ChangeMills()
+        {
+            // Heavy Initial Load
+            Puts(lang.GetMessage(BetterElectricityLang.FIND_MILL_ADJUST, this));
+            foreach (ElectricWindmill mill in UnityEngine.Object.FindObjectsOfType<ElectricWindmill>())
+            {
+                AdjustMill(mill);
+            }
+        }
+
         private void RevertBatteries()
         {
-            Puts(BetterElectricityLang.GetMessage(BetterElectricityLang.FIND_BATTERIES_REVERT));
+            Puts(lang.GetMessage(BetterElectricityLang.FIND_BATTERIES_REVERT, this));
             foreach (ElectricBattery battery in UnityEngine.Object.FindObjectsOfType<ElectricBattery>())
             {
                 RevertBattery(battery);
@@ -228,10 +254,19 @@ namespace Oxide.Plugins
 
         private void RevertSolarPanels()
         {
-            Puts(BetterElectricityLang.GetMessage(BetterElectricityLang.FIND_SOLAR_PANELS_REVERT));
+            Puts(lang.GetMessage(BetterElectricityLang.FIND_SOLAR_PANELS_REVERT, this));
             foreach (SolarPanel panel in UnityEngine.Object.FindObjectsOfType<SolarPanel>())
             {
                 RevertSolarPanel(panel);
+            }
+        }
+
+        private void RevertMills()
+        {
+            Puts(lang.GetMessage(BetterElectricityLang.FIND_MILL_REVERT, this));
+            foreach (ElectricWindmill mill in UnityEngine.Object.FindObjectsOfType<ElectricWindmill>())
+            {
+                RevertMill(mill);
             }
         }
 
@@ -258,6 +293,11 @@ namespace Oxide.Plugins
             panel.maximalPowerOutput = config.SolarPanelConfig.MaxOutput;
         }
 
+        private void AdjustMill(ElectricWindmill mill)
+        {
+            mill.maxPowerGeneration = config.MillConfig.MaxOutput;
+        }
+
         private void RevertBattery(ElectricBattery battery)
         {
 
@@ -279,6 +319,11 @@ namespace Oxide.Plugins
         private void RevertSolarPanel(SolarPanel panel)
         {
             panel.maximalPowerOutput = 20;
+        }
+
+        private void RevertMill(ElectricWindmill mill)
+        {
+            mill.maxPowerGeneration = 150;
         }
 
         #endregion

@@ -378,7 +378,6 @@ namespace Oxide.Plugins
 
         private void RevertBattery(ElectricBattery battery)
         {
-            Puts("Revert battery: " + battery.name + " max: " + battery.maxOutput);
             // Based on these values -> https://rust.facepunch.com/blog/november-update#batteryfixes
             if (battery.maxOutput == config.LargeBatteryConfig.MaxOutput)
             {

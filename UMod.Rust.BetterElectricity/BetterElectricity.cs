@@ -4,11 +4,15 @@ using System.Collections.Generic;
 
 namespace Oxide.Plugins
 {
-    [Info("Better Electricity", "dbteku", "1.2.0")]
+    [Info("Better Electricity", "dbteku", "1.2.1")]
     [Description("Allows more control over electricity.")]
     public class BetterElectricity : RustPlugin
     {
         private const string ADMIN_PERM = "betterelectricity.admin";
+
+        private const int LARGE_BATTERY_MAX_DEFAULT = 100;
+        private const int MEDIUM_BATTERY_MAX_DEFAULT = 50;
+        private const int SMALL_BATTERY_MAX_DEFAULT = 10;
 
         private static ElectricityConfig config;
 
@@ -18,6 +22,7 @@ namespace Oxide.Plugins
         {
             public SolarPanelConfig SolarPanelConfig { get; set; }
             public LargeBatteryConfig LargeBatteryConfig { get; set; }
+            public MediumBatteryConfig MediumBatteryConfig { get; set; }
             public SmallBatteryConfig SmallBatteryConfig { get; set; }
 
             public SmallGeneratorConfig SmallGeneratorConfig { get; set; }
@@ -28,6 +33,7 @@ namespace Oxide.Plugins
             {
                 SolarPanelConfig = new SolarPanelConfig();
                 LargeBatteryConfig = new LargeBatteryConfig();
+                MediumBatteryConfig = new MediumBatteryConfig();
                 SmallBatteryConfig = new SmallBatteryConfig();
                 MillConfig = new MillConfig();
                 SmallGeneratorConfig = new SmallGeneratorConfig();
@@ -62,7 +68,21 @@ namespace Oxide.Plugins
 
             public LargeBatteryConfig()
             {
-                MaxOutput = 100;
+                MaxOutput = 150;
+                Efficiency = 1.0f;
+                MaxCapacitySeconds = 28800;
+            }
+        }
+
+        private class MediumBatteryConfig
+        {
+            public int MaxOutput { get; set; }
+            public float Efficiency { get; set; }
+            public int MaxCapacitySeconds { get; set; }
+
+            public MediumBatteryConfig()
+            {
+                MaxOutput = 75;
                 Efficiency = 1.0f;
                 MaxCapacitySeconds = 14400;
             }
@@ -87,7 +107,7 @@ namespace Oxide.Plugins
             public int MaxOutput { get; set; }
             public SmallGeneratorConfig()
             {
-                MaxOutput = 40;
+                MaxOutput = 75;
             }
             
         }
@@ -317,20 +337,28 @@ namespace Oxide.Plugins
 
         private void AdjustBattery(ElectricBattery battery)
         {
-            if(battery.maxOutput == 100)
+            if(battery.maxOutput == LARGE_BATTERY_MAX_DEFAULT)
             {
                 // Large Battery
                 battery.maxOutput = config.LargeBatteryConfig.MaxOutput;
                 battery.maxCapactiySeconds = config.LargeBatteryConfig.MaxCapacitySeconds;
                 battery.chargeRatio = config.LargeBatteryConfig.Efficiency;
             }
-            else if(battery.maxOutput == 10)
+            else if (battery.maxOutput == MEDIUM_BATTERY_MAX_DEFAULT)
+            {
+                battery.maxOutput = config.MediumBatteryConfig.MaxOutput;
+                battery.maxCapactiySeconds = config.MediumBatteryConfig.MaxCapacitySeconds;
+                battery.chargeRatio = config.MediumBatteryConfig.Efficiency;
+            }
+            else if(battery.maxOutput == SMALL_BATTERY_MAX_DEFAULT)
             {
                 // Small Battery.
                 battery.maxOutput = config.SmallBatteryConfig.MaxOutput;
                 battery.maxCapactiySeconds = config.SmallBatteryConfig.MaxCapacitySeconds;
                 battery.chargeRatio = config.SmallBatteryConfig.Efficiency;
+                battery.rustWattSeconds = 0;
             }
+            battery.SendNetworkUpdate(BasePlayer.NetworkQueue.Update);
         }
 
         private void AdjustSolarPanel(SolarPanel panel)
@@ -350,20 +378,28 @@ namespace Oxide.Plugins
 
         private void RevertBattery(ElectricBattery battery)
         {
-
+            Puts("Revert battery: " + battery.name + " max: " + battery.maxOutput);
+            // Based on these values -> https://rust.facepunch.com/blog/november-update#batteryfixes
             if (battery.maxOutput == config.LargeBatteryConfig.MaxOutput)
             {
                 // Large battery;
                 battery.maxCapactiySeconds = 14400;
                 battery.chargeRatio = 0.8f;
-                battery.maxOutput = 100;
+                battery.maxOutput = LARGE_BATTERY_MAX_DEFAULT;
+            }
+            else if (battery.maxOutput == config.MediumBatteryConfig.MaxOutput)
+            {
+                battery.maxCapactiySeconds = 10800;
+                battery.chargeRatio = 0.8f;
+                battery.maxOutput = MEDIUM_BATTERY_MAX_DEFAULT;
             }
             else if(battery.maxOutput == config.SmallBatteryConfig.MaxOutput)
             {
                 battery.maxCapactiySeconds = 900;
                 battery.chargeRatio = 0.8f;
-                battery.maxOutput = 10;
+                battery.maxOutput = SMALL_BATTERY_MAX_DEFAULT;
             }
+            battery.SendNetworkUpdate(BasePlayer.NetworkQueue.Update);
         }
 
         private void RevertSolarPanel(SolarPanel panel)

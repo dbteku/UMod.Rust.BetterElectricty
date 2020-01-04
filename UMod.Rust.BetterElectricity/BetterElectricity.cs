@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Oxide.Plugins
 {
-    [Info("Better Electricity", "dbteku", "1.2.1")]
+    [Info("Better Electricity", "dbteku", "1.2.2")]
     [Description("Allows more control over electricity.")]
     public class BetterElectricity : RustPlugin
     {
@@ -68,9 +68,9 @@ namespace Oxide.Plugins
 
             public LargeBatteryConfig()
             {
-                MaxOutput = 150;
-                Efficiency = 1.0f;
-                MaxCapacitySeconds = 28800;
+                MaxOutput = 100;
+                Efficiency = 0.8f;
+                MaxCapacitySeconds = 1440000;
             }
         }
 
@@ -82,9 +82,9 @@ namespace Oxide.Plugins
 
             public MediumBatteryConfig()
             {
-                MaxOutput = 75;
-                Efficiency = 1.0f;
-                MaxCapacitySeconds = 14400;
+                MaxOutput = 50;
+                Efficiency = 0.8f;
+                MaxCapacitySeconds = 540000;
             }
         }
 
@@ -96,9 +96,9 @@ namespace Oxide.Plugins
 
             public SmallBatteryConfig()
             {
-                MaxOutput = 50;
-                Efficiency = 1.0f;
-                MaxCapacitySeconds = 1800;
+                MaxOutput = 10;
+                Efficiency = 0.8f;
+                MaxCapacitySeconds = 9000;
             }
         }
 
@@ -343,12 +343,14 @@ namespace Oxide.Plugins
                 battery.maxOutput = config.LargeBatteryConfig.MaxOutput;
                 battery.maxCapactiySeconds = config.LargeBatteryConfig.MaxCapacitySeconds;
                 battery.chargeRatio = config.LargeBatteryConfig.Efficiency;
+                //battery.maximumInboundEnergyRatio = config.LargeBatteryConfig.Efficiency * 10;
             }
             else if (battery.maxOutput == MEDIUM_BATTERY_MAX_DEFAULT)
             {
                 battery.maxOutput = config.MediumBatteryConfig.MaxOutput;
                 battery.maxCapactiySeconds = config.MediumBatteryConfig.MaxCapacitySeconds;
                 battery.chargeRatio = config.MediumBatteryConfig.Efficiency;
+                //battery.maximumInboundEnergyRatio = config.MediumBatteryConfig.Efficiency * 10;
             }
             else if(battery.maxOutput == SMALL_BATTERY_MAX_DEFAULT)
             {
@@ -356,7 +358,7 @@ namespace Oxide.Plugins
                 battery.maxOutput = config.SmallBatteryConfig.MaxOutput;
                 battery.maxCapactiySeconds = config.SmallBatteryConfig.MaxCapacitySeconds;
                 battery.chargeRatio = config.SmallBatteryConfig.Efficiency;
-                battery.rustWattSeconds = 0;
+                //battery.maximumInboundEnergyRatio = config.SmallBatteryConfig.Efficiency * 10;
             }
             battery.SendNetworkUpdate(BasePlayer.NetworkQueue.Update);
         }
@@ -382,20 +384,23 @@ namespace Oxide.Plugins
             if (battery.maxOutput == config.LargeBatteryConfig.MaxOutput)
             {
                 // Large battery;
-                battery.maxCapactiySeconds = 14400;
+                battery.maxCapactiySeconds = 1440000;
                 battery.chargeRatio = 0.8f;
+                battery.maximumInboundEnergyRatio = 4;
                 battery.maxOutput = LARGE_BATTERY_MAX_DEFAULT;
             }
             else if (battery.maxOutput == config.MediumBatteryConfig.MaxOutput)
             {
-                battery.maxCapactiySeconds = 10800;
+                battery.maxCapactiySeconds = 540000;
                 battery.chargeRatio = 0.8f;
+                battery.maximumInboundEnergyRatio = 4;
                 battery.maxOutput = MEDIUM_BATTERY_MAX_DEFAULT;
             }
             else if(battery.maxOutput == config.SmallBatteryConfig.MaxOutput)
             {
-                battery.maxCapactiySeconds = 900;
+                battery.maxCapactiySeconds = 9000;
                 battery.chargeRatio = 0.8f;
+                battery.maximumInboundEnergyRatio = 4;
                 battery.maxOutput = SMALL_BATTERY_MAX_DEFAULT;
             }
             battery.SendNetworkUpdate(BasePlayer.NetworkQueue.Update);

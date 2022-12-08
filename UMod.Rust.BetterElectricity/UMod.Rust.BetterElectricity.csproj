@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Oxide.Core" Version="2.0.3867" />
     <PackageReference Include="Oxide.CSharp" Version="2.0.4000" />
     <PackageReference Include="Oxide.Rust" Version="2.0.4351" />
